@@ -1,19 +1,24 @@
 class UsersController < ApplicationController
-  before_action :ensure_correct_user, only: [:update]
-
-  def show
-    @user = User.find(params[:id])
-    @book = Book.new
-    @books = @user.books.page(params[:page]).reverse_order
-  end
+  before_action :ensure_correct_user, only: [:edit,:update]
 
   def index
     @users = User.all
     @book = Book.new
   end
+  
+  def show
+    @user = User.find(params[:id])
+    @book_new = Book.new
+    @books = @user.books.page(params[:page]).reverse_order
+  end
 
   def edit
     @user = User.find(params[:id])
+    if @user == current_user
+      render :edit
+    else
+      redirect_to user_path(current_user)
+    end
   end
 
   def update
