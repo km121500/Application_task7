@@ -12,5 +12,7 @@ Rails.application.routes.draw do
     resource :favorites, only: [:create, :destroy]
   end
   get '/search', to: 'searchs#search'
-  resources :groups, except: [:destroy]
+  resources :groups do
+    get "join" => "groups#join"
+  end
 end
